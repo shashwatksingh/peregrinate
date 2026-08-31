@@ -3,15 +3,35 @@ package org.shashwatksingh.dsa;
 import java.util.Arrays;
 
 /*
-* You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
-You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
+Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.
 Example 1:
-Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
-Output: [[7,4,1],[8,5,2],[9,6,3]]
-*
+
+Input: nums = [1,2,3,4,5,6,7], k = 3
+Output: [5,6,7,1,2,3,4]
+Explanation:
+rotate 1 steps to the right: [7,1,2,3,4,5,6]
+rotate 2 steps to the right: [6,7,1,2,3,4,5]
+rotate 3 steps to the right: [5,6,7,1,2,3,4]
 Example 2:
-Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
-Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+
+Input: nums = [-1,-100,3,99], k = 2
+Output: [3,99,-1,-100]
+Explanation:
+rotate 1 steps to the right: [99,-1,-100,3]
+rotate 2 steps to the right: [3,99,-1,-100]
+
+
+Constraints:
+
+1 <= nums.length <= 105
+-231 <= nums[i] <= 231 - 1
+0 <= k <= 105
+
+
+Follow up:
+
+Try to come up with as many solutions as you can. There are at least three different ways to solve this problem.
+Could you do it in-place with O(1) extra space?
 *
 * */
 public class RotateImage {
@@ -36,8 +56,6 @@ public class RotateImage {
                 }
             }
         }
-
-//        Arrays.stream(matrix).forEach(ele-> System.out.println(Arrays.toString(ele)));
 
         for(int i = 0; i < n/2; i++) {
             for(int j = 0; j < m; j++) {

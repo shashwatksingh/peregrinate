@@ -24,6 +24,11 @@ Output: [0,1]
 func main()  {
 	results:=twoSum([]int {2,7,11,15}, 9)
 	fmt.Println(results)
+
+	count := SubarraySum([]int{1,2,3}, 3)
+	fmt.Println(count)
+
+	fmt.Println(PivotIndex([]int{1,7,3,6,5,6}))
 }
 
 func twoSum(arr []int, target int) []int {

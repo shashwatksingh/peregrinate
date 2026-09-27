@@ -83,49 +83,49 @@ class HouseRobberTest {
         @Test
         @DisplayName("Single house: [5] → 5 (min constraint)")
         void testSingleHouse() {
-            assertEquals(5, houseRobber.topDownWithTabulation(new int[]{5}));
+            assertEquals(5, houseRobber.topDownWithMemoization(new int[]{5}));
         }
 
         @Test
         @DisplayName("Two houses — pick richer: [2, 7] → 7")
         void testTwoHouses() {
-            assertEquals(7, houseRobber.topDownWithTabulation(new int[]{2, 7}));
+            assertEquals(7, houseRobber.topDownWithMemoization(new int[]{2, 7}));
         }
 
         @Test
         @DisplayName("LeetCode Example 1: [1,2,3,1] → 4")
         void testExample1() {
-            assertEquals(4, houseRobber.topDownWithTabulation(new int[]{1, 2, 3, 1}));
+            assertEquals(4, houseRobber.topDownWithMemoization(new int[]{1, 2, 3, 1}));
         }
 
         @Test
         @DisplayName("LeetCode Example 2: [2,7,9,3,1] → 12")
         void testExample2() {
-            assertEquals(12, houseRobber.topDownWithTabulation(new int[]{2, 7, 9, 3, 1}));
+            assertEquals(12, houseRobber.topDownWithMemoization(new int[]{2, 7, 9, 3, 1}));
         }
 
         @Test
         @DisplayName("All zeros: [0,0,0] → 0")
         void testAllZeros() {
-            assertEquals(0, houseRobber.topDownWithTabulation(new int[]{0, 0, 0}));
+            assertEquals(0, houseRobber.topDownWithMemoization(new int[]{0, 0, 0}));
         }
 
         @Test
         @DisplayName("All same values: [3,3,3,3] → 6")
         void testAllSameValues() {
-            assertEquals(6, houseRobber.topDownWithTabulation(new int[]{3, 3, 3, 3}));
+            assertEquals(6, houseRobber.topDownWithMemoization(new int[]{3, 3, 3, 3}));
         }
 
         @Test
         @DisplayName("Strictly increasing: [1,2,3,4,5] → 9")
         void testStrictlyIncreasing() {
-            assertEquals(9, houseRobber.topDownWithTabulation(new int[]{1, 2, 3, 4, 5}));
+            assertEquals(9, houseRobber.topDownWithMemoization(new int[]{1, 2, 3, 4, 5}));
         }
 
         @Test
         @DisplayName("Max constraint values: [400,400,400,400,400] → 1200")
         void testMaxConstraintValues() {
-            assertEquals(1200, houseRobber.topDownWithTabulation(new int[]{400, 400, 400, 400, 400}));
+            assertEquals(1200, houseRobber.topDownWithMemoization(new int[]{400, 400, 400, 400, 400}));
         }
     }
 

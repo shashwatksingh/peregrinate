@@ -79,7 +79,7 @@ public class ClimbStairs {
     }
 
     public int solutionBottomUpOptimised(int n) {
-        if(n== 1) return 1;
+        if(n == 1) return 1;
         int first = 1;
         int second = 2;
 

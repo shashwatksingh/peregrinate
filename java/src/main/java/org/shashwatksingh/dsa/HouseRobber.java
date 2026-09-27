@@ -46,7 +46,7 @@ public class HouseRobber {
         return Math.max(recursive(i+1, n, nums), recursive(i+2, n, nums)+nums[i]);
     }
 
-    public int topDownWithTabulation(int[] nums) {
+    public int topDownWithMemoization(int[] nums) {
         int n = nums.length;
         int[] memo = new int[n];
         Arrays.fill(memo, -1);

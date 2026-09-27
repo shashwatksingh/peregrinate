@@ -33,11 +33,6 @@ Constraints:
 
 public class ContainsDuplicate {
 
-    public static void main(String[] args) {
-        ContainsDuplicate containsDuplicate = new ContainsDuplicate();
-
-    }
-
     public boolean setSolution(int[] nums) {
         HashSet<Integer> set = new HashSet<>();
         for (int i : nums) {

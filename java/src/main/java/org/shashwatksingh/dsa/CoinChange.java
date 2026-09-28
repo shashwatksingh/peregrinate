@@ -52,7 +52,7 @@ public class CoinChange {
                 min = Math.min(min, 1 + res);
             }
         }
-        map.put(target, min); 
+        map.put(target, min);
         return min;
     }
 

@@ -85,7 +85,7 @@ public class NextGreaterElement {
             while(!stack.isEmpty() && stack.peek()<num) {
                 map.put(stack.pop(), num);
             }
-            stack.add(num);
+            stack.push(num);
         }
 
         int i = 0;

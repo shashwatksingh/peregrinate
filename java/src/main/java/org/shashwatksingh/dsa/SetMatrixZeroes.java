@@ -2,7 +2,9 @@ package org.shashwatksingh.dsa;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*
 73. Set Matrix Zeroes
@@ -45,9 +47,33 @@ public class SetMatrixZeroes {
     public void setZeroesSetMarkers(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
-        // The problem with list is that it is O(n) for searching. Hence, set will be better for this purpose because average case, it is O(1).
         List<Integer> row = new ArrayList<>();
         List<Integer> col = new ArrayList<>();
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    row.add(i);
+                    col.add(j);
+                }
+            }
+        }
+        if(row.size() == 0 && col.size() == 0) return;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(row.contains(i) || col.contains(j)) matrix[i][j] = 0;
+            }
+        }
+    }
+
+        public void setZeroesSetMarkersOptimised(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        // The problem with list is that it is O(n) for searching. 
+        // Hence, set will be better for this purpose because average case, it is O(1).
+        Set<Integer> row = new HashSet<>();
+        Set<Integer> col = new HashSet<>();
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
@@ -71,25 +97,34 @@ public class SetMatrixZeroes {
 
         int m = matrix.length;
         int n = matrix[0].length;
+        boolean isCol = false;
 
         for (int i = 0; i < m; i++) {
-            for (int j = i; j < n; j++) {
+            if(matrix[i][0] == 0) isCol = true;
+
+            for (int j = 1; j < n; j++) {
                 if(matrix[i][j] == 0) {
                     matrix[i][0] = 0;
-                    matrix[i][j] = 0;
-                }
+                    matrix[0][j] = 0;
+                } 
             }
+        }
 
-            if(matrix[i][0] == 0) {
-                for (int k = i; k < m; k++) {
-                    matrix[0][k] = 0;
-                }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if(matrix[i][0] == 0 || matrix[0][j] == 0) matrix[i][j] = 0;
             }
+        }
 
-            if(matrix[i][i] == 0) {
-                for (int k = i; k < n; k++) {
-                    matrix[i][k] = 0;
-                }
+        if (matrix[0][0] == 0) {
+            for (int j = 0; j < n; j++) {
+                matrix[0][j] = 0;
+            }
+        }
+
+        if(isCol) {
+            for (int i = 0; i < m; i++) {
+                matrix[i][0] = 0;
             }
         }
     }

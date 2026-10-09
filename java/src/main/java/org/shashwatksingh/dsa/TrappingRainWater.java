@@ -82,8 +82,7 @@ public class TrappingRainWater {
 
         for (int i = 0; i < len; i++) {
             while (!stack.isEmpty() && height[stack.peek()]<height[i]) {
-                int top = stack.peek();
-                stack.pop();
+                int top = stack.pop();
                 if(stack.isEmpty()) break;
                 int distance = i - stack.peek() - 1;
                 int boundedHeight = Math.min(height[i], height[stack.peek()]) - height[top];
@@ -96,18 +95,20 @@ public class TrappingRainWater {
     }
 
     public int trap(int[] height) {
-        int left = 0, right = height.length-1;
-        int left_max = 0, right_max = 0;
-        int max = Integer.MIN_VALUE;
-        int res = 0;
-        while (left<right) {
-            int width = right-left;
-            left_max = Math.max(left_max, height[left]);
-            res += left_max-height[left];
-            max =  Math.max(max, width * Math.min(height[left], height[right]));
-            if(height[left]<=height[right]) left++;
-            else right--;
+        int res = 0, len = height.length;
+        int left = 0, right = len-1, leftMax = 0, rightMax = 0;
+        while(left<right) {
+            if(height[left]<height[right]){
+                leftMax = Math.max(leftMax, height[left]);
+                res += leftMax - height[left];
+                left++;
+            } else {
+                rightMax = Math.max(rightMax, height[right]);
+                res += rightMax - height[right];
+                right--;
+            }
         }
-        return max;
+
+        return res;
     }
 }

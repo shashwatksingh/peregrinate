@@ -1,5 +1,6 @@
 package org.shashwatksingh.dsa;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -36,6 +37,15 @@ Constraints:
 */
 
 public class KClosestPointstoOrigin {
+
+    public int[][] kClosestArraySort(int[][] points, int k) {
+        Arrays.sort(points, (a, b) -> squaredDistance(a) - squaredDistance(b));
+        return Arrays.copyOf(points, k);
+    }
+
+    private int squaredDistance(int[] num) {
+        return num[0]*num[0] + num[1]*num[1];
+    }
 
     public int[][] kClosest(int[][] points, int k) {
         // {index, distance^2}

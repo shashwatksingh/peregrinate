@@ -403,4 +403,133 @@ class TrappingRainWaterTest {
             assertEquals(9999, instance.trapStack(height));
         }
     }
+
+    // ═══════════════════════════════════════════════════════════
+    //  trap()  — two-pointer, O(n) time, O(1) space
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("trap() — monotonic stack")
+    class TrapTests {
+
+        @Test
+        @DisplayName("LeetCode Example 1: [0,1,0,2,1,0,1,3,2,1,2,1] → 6")
+        void testLeetCodeExample1() {
+            assertEquals(6, instance.trap(new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}));
+        }
+
+        @Test
+        @DisplayName("LeetCode Example 2: [4,2,0,3,2,5] → 9")
+        void testLeetCodeExample2() {
+            assertEquals(9, instance.trap(new int[]{4, 2, 0, 3, 2, 5}));
+        }
+
+        @Test
+        @DisplayName("Single bar: [5] → 0")
+        void testSingleBar() {
+            assertEquals(0, instance.trap(new int[]{5}));
+        }
+
+        @Test
+        @DisplayName("Two bars: [3,1] → 0")
+        void testTwoBars() {
+            assertEquals(0, instance.trap(new int[]{3, 1}));
+        }
+
+        @Test
+        @DisplayName("All-same heights: [3,3,3,3] → 0")
+        void testAllSameHeights() {
+            assertEquals(0, instance.trap(new int[]{3, 3, 3, 3}));
+        }
+
+        @Test
+        @DisplayName("All zeros: [0,0,0] → 0")
+        void testAllZeros() {
+            assertEquals(0, instance.trap(new int[]{0, 0, 0}));
+        }
+
+        @Test
+        @DisplayName("Strictly increasing: [1,2,3,4,5] → 0")
+        void testStrictlyIncreasing() {
+            assertEquals(0, instance.trap(new int[]{1, 2, 3, 4, 5}));
+        }
+
+        @Test
+        @DisplayName("Strictly decreasing: [5,4,3,2,1] → 0")
+        void testStrictlyDecreasing() {
+            assertEquals(0, instance.trap(new int[]{5, 4, 3, 2, 1}));
+        }
+
+        @Test
+        @DisplayName("Single valley between equal walls: [2,0,2] → 2")
+        void testSingleValley() {
+            assertEquals(2, instance.trap(new int[]{2, 0, 2}));
+        }
+
+        @Test
+        @DisplayName("Peak with zeros on both sides: [0,5,0] → 0")
+        void testPeakNoWalls() {
+            assertEquals(0, instance.trap(new int[]{0, 5, 0}));
+        }
+
+        @Test
+        @DisplayName("Wide flat basin: [3,0,0,3] → 6")
+        void testWideFlatBasin() {
+            assertEquals(6, instance.trap(new int[]{3, 0, 0, 3}));
+        }
+
+        @Test
+        @DisplayName("Asymmetric walls, tall left: [5,0,0,0,1] → 3")
+        void testAsymmetricTallLeft() {
+            assertEquals(3, instance.trap(new int[]{5, 0, 0, 0, 1}));
+        }
+
+        @Test
+        @DisplayName("Asymmetric walls, stepped: [5,2,3,0,4] → 7")
+        void testAsymmetricStepped() {
+            assertEquals(7, instance.trap(new int[]{5, 2, 3, 0, 4}));
+        }
+
+        @Test
+        @DisplayName("Nested basins: [5,1,3,1,5] → 10")
+        void testNestedBasins() {
+            assertEquals(10, instance.trap(new int[]{5, 1, 3, 1, 5}));
+        }
+
+        @Test
+        @DisplayName("Multiple separate basins: [3,0,3,0,3] → 6")
+        void testMultipleBasins() {
+            assertEquals(6, instance.trap(new int[]{3, 0, 3, 0, 3}));
+        }
+
+        @Test
+        @DisplayName("Zero-height bars at both ends: [0,2,0,1,0] → 1")
+        void testZeroEnds() {
+            assertEquals(1, instance.trap(new int[]{0, 2, 0, 1, 0}));
+        }
+
+        @Test
+        @DisplayName("Max height value: [100000,0,100000] → 100000")
+        void testMaxHeightValue() {
+            assertEquals(100000, instance.trap(new int[]{100000, 0, 100000}));
+        }
+
+        @Test
+        @DisplayName("Max size (n=20000): 100000 wall, 19998 zeros, 100000 wall → 1999800000")
+        void testMaxSizeDeepBasin() {
+            int[] height = new int[20000];
+            height[0] = 100000;
+            height[19999] = 100000;
+            assertEquals(1_999_800_000, instance.trap(height));
+        }
+
+        @Test
+        @DisplayName("Max size (n=20000): alternating [1,0,1,0,...] → 9999")
+        void testMaxSizeAlternating() {
+            int[] height = new int[20000];
+            for (int i = 0; i < height.length; i += 2) {
+                height[i] = 1;
+            }
+            assertEquals(9999, instance.trap(height));
+        }
+    }
 }

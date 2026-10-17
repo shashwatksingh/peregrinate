@@ -57,4 +57,56 @@ public class MergeIntervals {
 
         return res.toArray(new int[res.size()][]);
     }
+
+    public int[][] mergeIntervalsBruteForce(int[][] intervals) {
+        int n = intervals.length;
+        boolean mergedAny = true;
+
+        // Keep running the nested loops as long as we are still finding merges
+        while (mergedAny) {
+            mergedAny = false;
+
+            for (int i = 0; i < n; i++) {
+                // Skip if this interval was already consumed/merged away
+                if (intervals[i][0] == -1) continue;
+
+                for (int j = 0; j < n; j++) {
+                    // Skip self or already consumed intervals
+                    if (i == j || intervals[j][0] == -1) continue;
+
+                    int start1 = intervals[i][0];
+                    int end1 = intervals[i][1];
+                    int start2 = intervals[j][0];
+                    int end2 = intervals[j][1];
+
+                    // Check for overlap (Note: intervals can touch, so use <= instead of <)
+                    if (start1 <= end2 && start2 <= end1) {
+                        // Merge the boundaries directly into interval i
+                        intervals[i][0] = Math.min(start1, start2);
+                        intervals[i][1] = Math.max(end1, end2);
+                        
+                        // Mark interval j as consumed
+                        intervals[j][0] = -1;
+                        intervals[j][1] = -1;
+                        
+                        // We made a change, so we must check everything again
+                        mergedAny = true; 
+                    }
+                }
+            }
+        }
+        
+        return Arrays.stream(intervals).filter(ele -> ele[0]!=-1).toArray(int[][]::new);
+
+        // Collect all intervals that were not marked as -1
+        // List<int[]> result = new ArrayList<>();
+        // for (int[] interval : intervals) {
+        //     if (interval[0] != -1) {
+        //         result.add(interval);
+        //     }
+        // }
+
+        // return result.toArray(new int[result.size()][]);
+    }
+
 }

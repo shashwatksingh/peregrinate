@@ -17,6 +17,7 @@ public class SelectionSort {
     /*
 
     The algo entrust us to break the array into sorted and unsorted regions.
+    It is unstable sorting algorithm
     We need to find the element from the unsorted region.
     The selection sort required us to find the position of the current element in the array.
     We run an outer loop to keep track of the elements.

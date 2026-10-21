@@ -84,7 +84,7 @@ public class SubarraySumDivisiblebyK {
             // if (rem < 0) rem += k;
             rem = (rem + nums[i] % k + k) % k;
             ctr+=modGroup[rem];
-           modGroup[rem]++;
+            modGroup[rem]++;
         }
 
         return ctr;

@@ -12,15 +12,17 @@ solution", "push this problem up".
 
 1. **Identify the target file set.** Default to the source file currently open in the IDE
    (or the one most recently discussed/created in the conversation) unless the user names a
-   different one. Look for its matching test file at
-   `java/src/test/java/org/shashwatksingh/dsa/<Name>Test.java` (or the equivalent Go
-   `<file>_test.go`) and include it automatically if it exists — don't ask, just check and
-   add it.
+   different one. Look for its matching test file and include it automatically if it exists —
+   don't ask, just check and add it:
+   - Java: `java/src/test/java/org/shashwatksingh/dsa/<Name>Test.java`
+   - Go: `go/dsa/<file>_test.go` next to `go/dsa/<file>.go` (same base name)
 2. **Determine `{code_platform}`.** Read the source file's header comment for a problem
    number/title. This repo is LeetCode-heavy, so default to `leetcode` when the header
    matches that style (a numbered problem + title, e.g. `1658. Minimum Operations to Reduce
    X to Zero`). Only ask the user if the file gives no clue which platform the problem is
-   from.
+   from. For a Go file, the problem description is usually in a leading `/* ... */` comment
+   (e.g. `go/dsa/twosum.go`); if it has none, use the function/file name to recall the
+   LeetCode title and only ask if that is ambiguous.
 3. **Derive `{short question description}`.** Lowercase the problem's title from the header
    comment, with no trailing punctuation. If the file implements a specific
    variant/technique that the plain title doesn't convey (e.g. a two-pointer approach

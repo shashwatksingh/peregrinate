@@ -1,7 +1,5 @@
 package org.shashwatksingh.dsa;
 
-import java.util.Arrays;
-
 /*
 33. Search in Rotated Sorted Array
 
@@ -52,7 +50,7 @@ public class SearchInaRotatedSortedArray {
         }
 
         int k = 1;
-        while (temp[k-1]<temp[k]) {
+        while (temp[k-1]<temp[k] && k<len) {
             k++;
         }
 
@@ -66,11 +64,13 @@ public class SearchInaRotatedSortedArray {
         int left = 0, right = len-1;
 
         //Find the pivot
-        while (left<=right) {
+        while (left<right) {
             int mid = left + (right-left)/2;
-            if(nums[mid]>nums[len-1]) left = mid+1;
-            else right = mid-1;
+            if(nums[mid]>nums[right]) left = mid+1;
+            else right = mid;
         }
+
+        if(nums[left] == target) return left;
 
         int res = binarySearch(nums, 0, left-1, target);
         if(res != -1) return res;

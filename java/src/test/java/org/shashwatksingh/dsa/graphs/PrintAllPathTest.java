@@ -81,14 +81,6 @@ class PrintAllPathTest {
         return undirected(8, edges);
     }
 
-    private String dests(List<Edge> list) {
-        StringJoiner joiner = new StringJoiner(",", "[", "]");
-        for (Edge e : list) {
-            joiner.add(String.valueOf(e.getDest()));
-        }
-        return joiner.toString();
-    }
-
     // ═══════════════════════════════════════════════════════════
     //  dfs()  — prints vertices in depth-first order, O(V + E)
     // ═══════════════════════════════════════════════════════════
@@ -97,14 +89,14 @@ class PrintAllPathTest {
     class DfsTests {
 
         @Test
-        @DisplayName("Scenario: sample graph from create(), start 0 → 0 1 2 3 4 5 6 7")
+        @DisplayName("Scenario: sample graph, start 0 → 0 1 2 3 4 5 6 7")
         void testSampleGraphFromZero() {
             List<Edge>[] graph = sample();
             assertEquals("0 1 2 3 4 5 6 7", order(graph, 0));
         }
 
         @Test
-        @DisplayName("Scenario: sample graph from create(), start 7 → 7 6 4 3 0 1 2 5")
+        @DisplayName("Scenario: sample graph, start 7 → 7 6 4 3 0 1 2 5")
         void testSampleGraphFromLeaf() {
             List<Edge>[] graph = sample();
             assertEquals("7 6 4 3 0 1 2 5", order(graph, 7));
@@ -294,6 +286,109 @@ class PrintAllPathTest {
         void testRing() {
             int[][] edges = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 4 }, { 4, 5 }, { 5, 0 } };
             assertEquals("3 2 1 0 5 4", order(undirected(6, edges), 3));
+        }
+
+        @Test
+        @DisplayName("Scenario: directed cycle 0→1→2→0, start 0 → 0 1 2")
+        void testDirectedCycleFromZero() {
+            int[][] edges = { { 0, 1 }, { 1, 2 }, { 2, 0 } };
+            assertEquals("0 1 2", order(directed(3, edges), 0));
+        }
+
+        @Test
+        @DisplayName("Scenario: directed cycle 0→1→2→0, start 1 → 1 2 0 (wraps around)")
+        void testDirectedCycleFromMiddle() {
+            int[][] edges = { { 0, 1 }, { 1, 2 }, { 2, 0 } };
+            assertEquals("1 2 0", order(directed(3, edges), 1));
+        }
+
+        @Test
+        @DisplayName("Scenario: two triangles sharing vertex 2, start 0 → 0 1 2 3 4")
+        void testFigureEight() {
+            int[][] edges = { { 0, 1 }, { 1, 2 }, { 2, 0 }, { 2, 3 }, { 3, 4 }, { 4, 2 } };
+            assertEquals("0 1 2 3 4", order(undirected(5, edges), 0));
+        }
+
+        @Test
+        @DisplayName("Scenario: complete binary tree with 15 vertices, start at leaf 14 → 14 6 2 0 1 3 7 8 4 9 10 5 11 12 13")
+        void testBinaryTreeFromLeaf() {
+            int[][] edges = new int[14][];
+            int k = 0;
+            for (int i = 0; i < 7; i++) {
+                edges[k++] = new int[] { i, 2 * i + 1 };
+                edges[k++] = new int[] { i, 2 * i + 2 };
+            }
+            assertEquals("14 6 2 0 1 3 7 8 4 9 10 5 11 12 13", order(undirected(15, edges), 14));
+        }
+
+        @Test
+        @DisplayName("Scenario: directed 0→2, 0→1, 1→2, 2→3, start 0 → 0 2 3 1 (2 reached first, not revisited from 1)")
+        void testDirectedSharedTarget() {
+            int[][] edges = { { 0, 2 }, { 0, 1 }, { 1, 2 }, { 2, 3 } };
+            assertEquals("0 2 3 1", order(directed(4, edges), 0));
+        }
+
+        @Test
+        @DisplayName("Scenario: complete graph on 5 vertices, start 3 → 3 0 1 2 4")
+        void testCompleteGraphFromMiddle() {
+            List<Edge>[] graph = emptyGraph(5);
+            for (int a = 0; a < 5; a++) {
+                for (int b = 0; b < 5; b++) {
+                    if (a != b) {
+                        graph[a].add(new Edge(a, b));
+                    }
+                }
+            }
+            assertEquals("3 0 1 2 4", order(graph, 3));
+        }
+
+        @Test
+        @DisplayName("Scenario: 3x3 grid, start at corner 0 → 0 1 2 5 4 3 6 7 8")
+        void testGrid() {
+            int[][] edges = { { 0, 1 }, { 0, 3 }, { 1, 2 }, { 1, 4 }, { 2, 5 }, { 3, 4 }, { 3, 6 }, { 4, 5 }, { 4, 7 },
+                    { 5, 8 }, { 6, 7 }, { 7, 8 } };
+            assertEquals("0 1 2 5 4 3 6 7 8", order(undirected(9, edges), 0));
+        }
+
+        @Test
+        @DisplayName("Scenario: isolated vertex 2 among 0-1 and 3-4, start 2 → 2")
+        void testIsolatedVertexInMiddle() {
+            int[][] edges = { { 0, 1 }, { 3, 4 } };
+            assertEquals("2", order(undirected(5, edges), 2));
+        }
+
+        @Test
+        @DisplayName("Scenario: only a self-loop on 0 → 0 (printed once)")
+        void testOnlySelfLoop() {
+            assertEquals("0", order(undirected(1, new int[][] { { 0, 0 } }), 0));
+        }
+
+        @Test
+        @DisplayName("Scenario: shared visited[] over components 0-1, 2-3, 4, calling dfs from every vertex → 0 1 2 3 4")
+        void testSharedVisitedAcrossComponents() {
+            List<Edge>[] graph = undirected(5, new int[][] { { 0, 1 }, { 2, 3 } });
+            boolean[] visited = new boolean[5];
+            PrintAllPath printAllPath = new PrintAllPath(graph);
+            String output = capture(() -> {
+                for (int i = 0; i < 5; i++) {
+                    printAllPath.dfs(i, visited);
+                }
+            });
+            assertEquals("0 1 2 3 4", vertices(output));
+        }
+
+        @Test
+        @DisplayName("Scenario: chain with 5,000 vertices → 0 1 2 ... 4999")
+        void testVeryLongChain() {
+            int n = 5_000;
+            int[][] edges = new int[n - 1][];
+            StringJoiner expected = new StringJoiner(" ");
+            expected.add("0");
+            for (int i = 1; i < n; i++) {
+                edges[i - 1] = new int[] { i - 1, i };
+                expected.add(String.valueOf(i));
+            }
+            assertEquals(expected.toString(), order(undirected(n, edges), 0));
         }
 
         @Test
